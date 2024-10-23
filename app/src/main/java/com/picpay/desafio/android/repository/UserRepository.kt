@@ -37,7 +37,6 @@ class UserRepositoryImp(
                 call: Call<List<UserResponse>>,
                 response: Response<List<UserResponse>>
             ) {
-
                 _liveData.value = UserServiceResponse(
                     isSuccess = response.code() == 200,
                     message = response.message(), data = response.body(),
