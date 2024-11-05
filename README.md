@@ -2,21 +2,31 @@
 
 <img src="https://github.com/mobilepicpay/desafio-android/blob/master/desafio-picpay.gif" width="300"/>
 
-Um dos desafios de qualquer time de desenvolvimento é lidar com código legado e no PicPay isso não é diferente. Um dos objetivos de trazer os melhores desenvolvedores do Brasil é atacar o problema. Para isso, essa etapa do processo consiste numa proposta de solução para o desafio abaixo e você pode escolher a melhor forma de resolvê-lo, de acordo com sua comodidade e disponibilidade de tempo:
-- Resolver o desafio previamente, e explicar sua abordagem no momento da entrevista.
-- Discutir as possibilidades de solução durante a entrevista, fazendo um pair programming (bate-papo) interativo com os nossos devs.
+## Ajustes e Melhorias Implementadas 
 
-Com o passar do tempo identificamos alguns problemas que impedem esse aplicativo de escalar e acarretam problemas de experiência do usuário. A partir disso elaboramos a seguinte lista de requisitos que devem ser cumpridos ao melhorar nossa arquitetura:
+### Ajuste de versões e configuração de bibliotecas:
+* Atualização e organização das dependências no arquivo `gradle`
+* Atualização da versão do `Koin` e blibiotecas do `kotlinx`.
+* Implementação do `Room` para cache de dados.
+* Configuração de `mavenCentral` nos repositórios.
+* Correção das versões mínimas de SDK e Kotlin.
 
-- Em mudanças de configuração o aplicativo perde o estado da tela. Gostaríamos que o mesmo fosse mantido.
-- Nossos relatórios de crash têm mostrado alguns crashes relacionados a campos que não deveriam ser nulos sendo nulos e gerenciamento de lifecycle. Gostaríamos que fossem corrigidos.
-- Gostaríamos de cachear os dados retornados pelo servidor.
-- Haverá mudanças na lógica de negócios e gostaríamos que a arquitetura reaja bem a isso.
-- Haverá mudanças na lógica de apresentação. Gostaríamos que a arquitetura reaja bem a isso.
-- Com um grande número de desenvolvedores e uma quantidade grande de mudanças ocorrendo testes automatizados são essenciais.
-  - Gostaríamos de ter testes unitários testando nossa lógica de apresentação, negócios e dados independentemente, visto que tanto a escrita quanto execução dos mesmos são rápidas.
-  - Por outro lado, testes unitários rodam em um ambiente de execução diferenciado e são menos fiéis ao dia-a-dia de nossos usuários, então testes instrumentados também são importantes.
+### Estrutura de pacotes reformulada para facilitar a manutenção e modularidade:
+* **Data:** Implementação de `Room` para cache local e `Retrofit` para API remota.
+* **Presentation:** Criação de uma `ViewModel` para a Activity, facilitando o gerenciamento de dados.
+* **Repository:** Conexão com banco de dados local e remoto, repassando dados para a `ViewModel`.
+* **Util:** Constantes, métodos compartilhados e modelos utilizados em várias partes do código.
 
-Boa sorte! =)
+### **Ajustes no Adapter:**
+* Campos dos usuários configurados como opcionais para evitar crashes por valores nulos. No entanto, essa abordagem não define claramente o tratamento ideal. Seria interessante garantir que o backend envie esses campos já preenchidos, ou então implementar um tratamento específico caso cheguem nulos.
 
-Ps.: Fique à vontade para editar o projeto inteiro, organização de pastas e módulos, bem como as dependências utilizadas
+### Mudança de Estado de Tela:
+* A configuração de tela foi fixada para orientação em modo retrato no manifesto para evitar perda de estado em mudanças de rotação.
+* Como alternativa, o método `onSaveInstanceState` pode ser sobrescrito na Activity.
+
+## Pontos de Melhoria Futuras
+- Implementar injeção de dependência como `Koin` ou `Hilt` para maior flexibilidade.
+- Aplicar a Clean Architecture completa, incluindo o pacote `Domain` e a implementação de Use Cases.
+- Migrar de `MVVM` para `MVI` para um controle de estado de tela mais robusto, especialmente importante para as necessidades atuais de gerenciamento de estado.
+- Aumentar a cobertura de testes de interface para melhorar a confiabilidade.
+- Considerar a migração para o `Jetpack Compose`, que salva automaticamente o estado da tela e facilita o controle de estado.
